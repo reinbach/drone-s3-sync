@@ -18,8 +18,8 @@ Test
 .. code-block:: bash
 
    docker run --rm \
-     -e PLUGIN_ACCESS_KEY=<aws-access-key> \
-     -e PLUGIN_SECRET_KEY=<aws-secret-key> \
+     -e AWS_ACCESS_KEY_ID=<aws-access-key-id> \
+     -e AWS_SECRET_ACCESS_KEY=<aws-secret-access_key> \
      -e PLUGIN_SOURCE=path/from/ \
      -e PLUGIN_BUCKET=foo-bucket \
      -e PLUGIN_TARGET=/path/to/ \
@@ -42,4 +42,4 @@ Usage
         region: "us-east-1"
         acl: public-read
         delete: true
-        secrets: [access_key, secret_key]
+        secrets: [aws_access_key_id, aws_secret_access_key]

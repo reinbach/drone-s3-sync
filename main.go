@@ -11,14 +11,14 @@ import (
 	"strings"
 )
 
-func CreateCredentials() error {
+func createCredentials() error {
 	f, err := os.Create(path.Join(os.Getenv("HOME"), ".aws/credentials"))
 	if err != nil {
 		return err
 	}
 	defer f.Close()
 	buf := bufio.NewWriter(f)
-	err = WriteCredentials(buf)
+	err = writeCredentials(buf)
 	if err != nil {
 		return err
 	}
@@ -26,9 +26,9 @@ func CreateCredentials() error {
 	return nil
 }
 
-func WriteCredentials(w io.Writer) error {
-	access_key := os.Getenv("PLUGIN_ACCESS_KEY")
-	secret_key := os.Getenv("PLUGIN_SECRET_KEY")
+func writeCredentials(w io.Writer) error {
+	accessKey := os.Getenv("AWS_ACCESS_KEY_ID")
+	secretKey := os.Getenv("AWS_SECRET_ACCESS_KEY")
 	_, err := io.WriteString(
 		w,
 		fmt.Sprintf(
@@ -36,15 +36,15 @@ func WriteCredentials(w io.Writer) error {
 aws_access_key_id=%s
 aws_secret_access_key=%s
 `,
-			access_key,
-			secret_key,
+			accessKey,
+			secretKey,
 		),
 	)
 
 	return err
 }
 
-func Sync() error {
+func sync() error {
 	args := []string{"s3", "sync"}
 	args = append(args, os.Getenv("PLUGIN_SOURCE"))
 
@@ -90,11 +90,11 @@ func Sync() error {
 }
 
 func main() {
-	err := CreateCredentials()
+	err := createCredentials()
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = Sync()
+	err = sync()
 	if err != nil {
 		log.Fatal(err)
 	}
